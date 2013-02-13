@@ -1,0 +1,73 @@
+[user]
+    name = Jeroen Van den Bossche
+    email = vanbosse.jeroen@gmail.com
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    excludesfile = ~/.gitignore
+
+[color]
+    ui = auto
+
+[pretty]
+    concise = %C(yellow)%h%C(reset) %s %C(bold black)(%an, %ar)%C(reset)%C(bold blue)%d%C(reset)
+
+[merge]
+    tool = vimdiff
+
+[push]
+    # Make "git push" or "git push <remote>" only push the current branch to
+    # the tracked branch (regardless of its remote name) as opposed to pushing
+    # all branches with a matching name on the remote. See "An asymmetry
+    # between git pull and push": http://longair.net/blog/?p=572
+    default = tracking
+
+[alias]
+    # When doing "git git log" or some such, do not complain about "git" not
+    # being a valid Git command. This happens when copy-pasting examples, for
+    # instance.
+    git = !git
+
+    # Quickly view the latest commits in a multicolour oneliner format that
+    # highlights the parts I care about most: SHA, description and branch.
+    l = log --pretty=concise -n 20
+
+    # Like "git l", but show all and draw the history graph, too.
+    ll = log --pretty=concise --graph
+
+    # Show a concise status of the working directory, along with the branch
+    # and the number of commits behind and/or ahead.
+    s = status --short --branch
+
+    # Quickly push to the most common destination.
+    pom = push origin master
+
+    # I know "pum" could just as well stand for "PUsh" instead of "PUll", but
+    # I am so used to "git pom" that "git pum" feels like a natural
+    # counterpart. I always try to rebase to prevent unnecessary merge
+    # commits.
+    pum = pull --rebase origin master
+
+    # Show the staged changes.
+    dc = diff --cached
+
+    # Like "git show myfile", but uses the last commit that changed "myfile".
+    showlast = log -n 1 -p
+
+    # Switch branches, creating them if necessary. I want to unlearn using
+    # "git checkout" for switching between branches because of the possible
+    # dataloss when not paying attention. (You could see the PEBKAC, but I
+    # could reply with another four letter acronym, slightly resembling TOFU.)
+    #
+    # Suppose I have modified a file named "password" and have two branches,
+    # "password-expiry-mechanism" and "password-reset-mail". If I want to
+    # switch to either branch, I would type "git checkout pass<Tab><Enter>",
+    # but the autocomplete would stop at "git checkout password" because of
+    # the ambiguity. Because I press <Enter> without really thinking, I have
+    # now reset my "password" file. With "git go pass<Tab><Enter>", I would
+    # simply have created a new branch called "password". (I would be forced
+    # to use "--" to separate paths from banch names, which is a Good Thing™.)
+    go = checkout -B
