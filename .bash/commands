@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# OS X's file system is case-insensitive by default, so use aliases to get
+# "GET"/"HEAD"/… working. (Otherwise "HEAD" would execute "/usr/bin/head".)
+[[ "$OSTYPE" =~ ^darwin ]] && for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+    alias "$method"="/usr/bin/lwp-request -m $method";
+done;
+unset method;
+
+# SSH
+# =============================================================================
+
+# Creates an SSH key and uploads it to the given host.
+# This uses the same key over and over again. To use a different key per host
+# uncomment the keyfile lines and change the code to use $keyfile.id_rsa.pub
+configure-ssh-host() {
+    username=$1
+    hostname=$2
+    identifier=$3
+
+    if [[ "$identifier" == "" ]] || [[ "$username" == "" ]] || [[ "$hostname" == "" ]]; then
+        echo "usage: configure_ssh_host <username> <hostname> <identifier>"
+    else
+        # keyfile=$identifier
+        # ssh-keygen -f ~/.ssh/$keyfile.id_rsa -C "$USER $(date +'%Y/%m%/%d %H:%M:%S')"
+
+        echo -e "Host $identifier\n\tHostName $hostname\n\tUser $username\n\tIdentityFile ~/.ssh/id_rsa\n\tForwardAgent yes" >> ~/.ssh/config
+        ssh $identifier 'mkdir -p .ssh && cat >> ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
+        tput bold; ssh -o PasswordAuthentication=no $identifier true && { tput setaf 2; echo 'Success!'; } || { tput setaf 1; echo 'Failure'; }; tput sgr0
+
+        ssh-load-autocomplete
+    fi
+}
+
+# Adds ~/.ssh/config to the ssh autocomplete
+ssh-load-autocomplete() {
+    complete -W "$(awk '/^\s*Host\s*/ { sub(/^\s*Host /, ""); print; }' ~/.ssh/config)" ssh
+}
+
+# Start the autocomplete when our bash starts
+ssh-load-autocomplete
+
+# Git
+# =============================================================================
+
+# Show the git dirty state. This will check if there are files
+# edited in your current git repository.
+function git-dirty-state {
+    git_status="$(git status 2> /dev/null)"
+    pattern="^# On branch ([^${IFS}]*)"
+
+    if [[ ! ${git_status}} =~ "working directory clean" ]]; then
+        state=" *"
+    fi
+
+    if [[ ${git_status} =~ ${pattern} ]]; then
+        echo "${state}"
+    fi
+}
+
+# Show the current Git branch, if any.
+# (This is useful in the shell prompt.)
+function git-show-branch {
+    branch="$(git symbolic-ref -q HEAD 2>/dev/null)";
+    ret=$?;
+    case $ret in
+        0) echo ":${branch##*/}";;
+        1) echo ':no branch';;
+        128) echo -n;;
+        *) echo "[unknown git exit code: $ret]";;
+    esac;
+    return $ret;
+}
