@@ -128,3 +128,6 @@ export FONT_NOT_BOLD=$'\e[22m';
 
 # Reset the font style, but not the color. (Unlike $FONT_RESET.)
 export FONT_NORMAL="${FONT_NOT_BOLD}${FONT_NOT_UNDERLINE}${FONT_NOT_BLINK}${FONT_NOT_REVERSE}${FONT_NOT_HIDDEN}";
+
+# Add some color to ls.
+export CLICOLOR=1
