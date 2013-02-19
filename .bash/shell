@@ -3,8 +3,63 @@
 # Shell options, environment variables and readline settings
 # =============================================================================
 
+# Paths and binaries
+# -----------------------------------------------------------------------------
+
+# List the directories we want to add to the PATH variable, if they exist.
+paths_to_add=(
+    # Private "bin"
+    "$HOME/bin"
+    # Homebrew, Rudix (and various other distributions and local installations)
+    /usr/local/{,s}bin
+    # MacPorts
+    /opt/local/{,s}bin
+    # System
+    /{,s}bin
+    /usr/{,s}bin
+    # X binaries
+    /usr/X11/bin
+);
+
+# Create an array of directories currently in the PATH variable.
+oldIFS="$IFS";
+IFS=:;
+set -- $PATH;
+IFS="$oldIFS";
+unset oldIFS;
+old_paths=("$@");
+
+# Construct an array of the directories in the new PATH, preferring our paths
+# to the predefined ones.
+new_paths=();
+for path_to_add in "${paths_to_add[@]}"; do
+    [ -d "$path_to_add" ] && new_paths+=("$path_to_add");
+done;
+for old_path in "${old_paths[@]}"; do
+    [ -d "$old_path" ] || continue;
+    for new_path in "${new_paths[@]}"; do
+        [ "${old_path%%/}" = "${new_path%%/}" ] && continue 2;
+    done;
+    new_paths+=("$old_path");
+done;
+
+# Now implode everything into the new PATH variable.
+printf -v PATH "%s:" "${new_paths[@]}";
+export PATH="${PATH%:}";
+unset {old,new}_path{,s} path{s,}_to_add;
+
+# Override MacPorts' SSH binaries.
+for binary in /usr/bin/ssh*; do
+    [ -x "$binary" ] && hash -p "$binary" "$(basename "$binary")";
+done;
+unset binary;
+
+# Prefer Homebrew's netcat
+[ -x /usr/local/bin/netcat ] && hash -p /usr/local/bin/netcat nc;
+
 # Globbing and completion
 # -----------------------------------------------------------------------------
+
 # Case-insensitive globbing.
 shopt -s nocaseglob;
 
@@ -22,6 +77,7 @@ export LANG='en_GB';
 
 # History
 # -----------------------------------------------------------------------------
+
 # When the command contains an invalid history operation (for instance when
 # using an unescaped "!" (I get that a lot in quick e-mails and commit
 # messages) or a failed substitution (e.g. "^foo^bar" when there was no "foo"
@@ -45,6 +101,7 @@ export HISTTIMEFORMAT=$'\e[1;30m%Y/%m/%d %H:%M:%S\e[0m  ';
 
 # ANSI colours and font properties for xterm
 # -----------------------------------------------------------------------------
+
 # See http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
 # Using "tput" would be more portable, but this is slightly faster. I used to
 # use "tput setaf 1" etc., so maybe I will change it back some day.
