@@ -43,21 +43,6 @@ ssh-load-autocomplete
 # Git
 # =============================================================================
 
-# Show the git dirty state. This will check if there are files
-# edited in your current git repository.
-function git-dirty-state {
-    git_status="$(git status 2> /dev/null)"
-    pattern="^# On branch ([^${IFS}]*)"
-
-    if [[ ! ${git_status}} =~ "working directory clean" ]]; then
-        state=" *"
-    fi
-
-    if [[ ${git_status} =~ ${pattern} ]]; then
-        echo "${state}"
-    fi
-}
-
 # Show the current Git branch, if any.
 # (This is useful in the shell prompt.)
 function git-show-branch {
