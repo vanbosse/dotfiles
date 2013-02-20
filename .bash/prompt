@@ -1,6 +1,6 @@
 # if git is installed, show the branc we're currently working in
 type -t git > /dev/null \
-         && __prompt_vcs_string='${FG_YELLOW}$(git-show-branch)' \
+         && __prompt_vcs_string='${FG_GREEN}$(git-show-branch)' \
          || __prompt_vcs_string='';
 
 # set our prompt
