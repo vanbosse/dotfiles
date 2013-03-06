@@ -1,0 +1,3 @@
+if [[ $OS == 'Linux' ]]; then
+    alias ls='ls --color=tty';
+fi;
