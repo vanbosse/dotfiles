@@ -2,7 +2,7 @@
 
 ##Install
 
-	git clone git@github.com:vanbosse/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && sh ./install.sh
+	git clone git@github.com:vanbosse/dotfiles.git ~/.dotfiles && cd ~/.dotfiles && ./install.sh
 
 ##Credit where credit is due
 
