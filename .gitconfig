@@ -1,6 +1,7 @@
 [user]
     name = Jeroen Van den Bossche
     email = vanbosse.jeroen@gmail.com
+
 [core]
     repositoryformatversion = 0
     filemode = true
