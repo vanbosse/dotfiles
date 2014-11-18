@@ -16,3 +16,6 @@
 
 # Fork CMS cache.
 --ignore-dir=compiled_templates
+
+# Ignore tags file
+--ignore-file=is:tags
