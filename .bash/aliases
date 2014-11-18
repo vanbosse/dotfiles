@@ -1,3 +1,7 @@
 if [[ $OSTYPE =~ ^linux ]]; then
     alias ls='ls --color=tty';
 fi;
+
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+    alias swift='/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift';
+fi;
