@@ -9,6 +9,7 @@
     logallrefupdates = true
     ignorecase = true
     excludesfile = ~/.gitignore
+    editor = vim -f
 
 [color]
     ui = auto
