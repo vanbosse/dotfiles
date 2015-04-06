@@ -14,6 +14,8 @@ paths_to_add=(
     /usr/local/{,s}bin
     # MacPorts
     /opt/local/{,s}bin
+    # Composer
+    "$HOME/.composer/vendor/bin"
     # System
     /{,s}bin
     /usr/{,s}bin
