@@ -21,6 +21,8 @@ paths_to_add=(
     /usr/{,s}bin
     # X binaries
     /usr/X11/bin
+    # Go binaries
+    "$HOME/Projects/gocode/bin"
 );
 
 # Create an array of directories currently in the PATH variable.
@@ -133,3 +135,6 @@ export FONT_NORMAL="${FONT_NOT_BOLD}${FONT_NOT_UNDERLINE}${FONT_NOT_BLINK}${FONT
 
 # Add some color to ls.
 export CLICOLOR=1
+
+# Add GOPATH export.
+export GOPATH=$HOME/Projects/gocode
