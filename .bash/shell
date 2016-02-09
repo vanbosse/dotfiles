@@ -23,6 +23,8 @@ paths_to_add=(
     /usr/X11/bin
     # Go binaries
     "$HOME/Projects/gocode/bin"
+    # Vendor binaries
+    vendor/bin
 );
 
 # Create an array of directories currently in the PATH variable.
