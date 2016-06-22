@@ -15,7 +15,7 @@
     ui = auto
 
 [pretty]
-    concise = %C(yellow)%h%C(white) %s %C(reset)(%an, %ar)%C(reset)%C(blue)%d%C(reset)
+    concise = %C(yellow)%h%C(cyan) %s %C(white)(%an, %ar)%C(reset)%C(red)%d%C(reset)
 
 [merge]
     tool = vimdiff
