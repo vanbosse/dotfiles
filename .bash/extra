@@ -1,4 +1,6 @@
+# Load rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-export NVM_DIR="/Users/jeroenvandenbossche/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# Load nvm
+export NVM_DIR="$HOME/.nvm"
+. "$(brew --prefix nvm)/nvm.sh"
