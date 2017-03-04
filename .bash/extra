@@ -2,5 +2,8 @@
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Load nvm
-export NVM_DIR="$HOME/.nvm"
-. "$(brew --prefix nvm)/nvm.sh"
+if which nvm > /dev/null
+    then
+        export NVM_DIR="$HOME/.nvm"
+        . "$(brew --prefix nvm)/nvm.sh"
+fi
